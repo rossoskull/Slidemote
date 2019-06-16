@@ -5,7 +5,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 const Present = ({filePath, pageNumber, onDocumentLoadSuccess, handlePageIncrease, handlePageDecrease}) => {
   return (
-    <div>
+    <div id='present'>
       <Document
         file={filePath}
         onLoadSuccess={onDocumentLoadSuccess}

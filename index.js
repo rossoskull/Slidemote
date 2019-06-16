@@ -6,7 +6,7 @@ let path = require('path')
 
 let slides = {}
 
-let port = process.env.PORT || 8000
+let port = 8000
 server.listen(port, err => {
   if (err) {
     console.log(err)

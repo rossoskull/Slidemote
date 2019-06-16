@@ -1,8 +1,10 @@
 import React from 'react';
 import NavBar from './Components/NabBar/NavBar'
 import Upload from './Components/Upload/Upload'
-import './App.css';
-import Present from './Components/Present/Present';
+import Present from './Components/Present/Present'
+import Remote from './Components/Remote/Remote'
+
+import './App.css'
 
 class App extends React.Component {
   constructor() {
@@ -36,7 +38,6 @@ class App extends React.Component {
   // Increment the page
   handlePageIncrease = () => {
 		let { currentPage, maxPages } = this.state
-
 		this.setState({
 			currentPage:  currentPage % maxPages + 1
 		})
@@ -45,7 +46,6 @@ class App extends React.Component {
   // Decrement the page
 	handlePageDecrease = () => {
 		let { currentPage, maxPages } = this.state
-
 		this.setState({
 			currentPage: currentPage - 1 || maxPages
 		})
@@ -68,8 +68,13 @@ class App extends React.Component {
             handlePageIncrease={this.handlePageIncrease}
           />
 
+          <Remote
+            handlePageDecrease={this.handlePageDecrease}
+            handlePageIncrease={this.handlePageIncrease}
+          />
         </div>
       )
+
     } else {
       // Provide interface to upload file
       return (
@@ -79,6 +84,7 @@ class App extends React.Component {
           <Upload registerUpload={this.registerUpload} />
         </div>
       )
+
     }   
   }  
 }
