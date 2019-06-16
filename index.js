@@ -57,6 +57,14 @@ io.on('connection', socket => {
     }
   })
 
+  socket.on('increment', e => {
+    slides[e.keyVal].client.emit('increment')
+  })
+
+  socket.on('decrement', e => {
+    slides[e.keyVal].client.emit('decrement')
+  })
+
   socket.on('disconnect', () => {
     if (socket.connectionType === 'client') {
       for (var key in slides) {
