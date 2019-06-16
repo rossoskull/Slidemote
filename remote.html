@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Remote</title>
+</head>
+<body>
+  
+  <button onClick="retryConnection()">Retry Connection</button> Connection Status: <span id="cStatus">not connected</span>
+  <br>
+  <p></p>
+  <input type="text" placeholder="code" id='code'/><button onClick="connectAsRemote()">Connect</button>
+  <p></p>
+  Remote connection status: <span id="remoteStatus">Not connected</span>
+  
+  
+  <!-- Socket.io Client Module -->
+  <script src="node_modules/socket.io-client/dist/socket.io.dev.js"></script>
+
+  <script>
+  let socket = io('http://localhost:8000')
+    let connection = false
+
+    socket.on('connected', () => {
+      document.getElementById('cStatus').innerText = "connected"
+      connection = true
+    })
+
+    function retryConnection() {
+      if (!connection) {
+        socket = io('http://localhost:8000')
+      }
+    }
+
+    function connectAsRemote() {
+      let code = document.getElementById('code').value
+      if (code) {
+        socket.emit('registerAsRemote', {keyVal: code})
+      } else {
+        alert('Enter value.')
+      }
+    }
+
+    socket.on('remoteConnected', () => {
+      document.getElementById('remoteStatus').innerText = "Remote connected."
+    })
+
+    socket.on('remoteRegNoClient', () => {
+      document.getElementById('remoteStatus').innerText = "No such client found."
+    })
+  </script>
+</body>
+</html>

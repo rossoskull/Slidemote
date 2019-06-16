@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Client</title>
+</head>
+<body>
+  <button onClick="retryConnection()">Retry Connection</button> Connection status: <span id="connectionStatus">Not Connected</span><br>
+  <button onClick="registerClient()">Simulate Slide Creation</button>
+  
+  <h2 id="clientCode"></h2>
+  <p></p>
+  Remote connection status: <span id="remoteStatus">Not connected</span>
+
+  
+  <script src="node_modules/socket.io-client/dist/socket.io.dev.js"></script>
+
+  <script>
+    let socket = io('http://localhost:8000')
+    let connection = false
+
+    socket.on('connected', () => {
+      document.getElementById('connectionStatus').innerText = "connected"
+      connection = true
+    })
+
+    function retryConnection() {
+      if (!connection) {
+        socket = io('http://localhost:8000')
+      }
+    }
+
+    function registerClient() {
+      socket.emit('registerAsClient')
+    }
+
+    socket.on('clientRegistered', e => {
+      if (e.keyVal) {
+        document.getElementById('clientCode').innerText = e.keyVal
+      }
+    })
+
+    socket.on('remoteConnected', () => {
+      document.getElementById('remoteStatus').innerText = "Remote connected."
+    })
+
+    socket.on('disconnect', () => {
+      document.getElementById('connectionStatus').innerText = "not connected"
+      connection = false
+    })
+  </script>
+</body>
+</html>
