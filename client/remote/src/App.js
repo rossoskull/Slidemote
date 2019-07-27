@@ -15,7 +15,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    let socket = io('http://localhost:8000')
+    let socket = io(`${window.origin}`)
     
     socket.on('connect', () => {
       this.setState({
